@@ -1,23 +1,35 @@
 package model;
 
-import controller.ControllerTelaPrincipal;
-import model.Recebedor;
-import model.factorys.FactoryScreens;
-
-import java.io.IOException;
-import java.io.PrintStream;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
 
 public class Cliente {
+	
+	private String host;
+	private int porta;
+	
     public Cliente(String host, int porta){
-        this.porta = porta;
-        this.host = host;
+        this.setHost(host);
+        this.setPorta(porta);
     }
-    private String host;
-    private int porta;
 
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public int getPorta() {
+		return porta;
+	}
+
+	public void setPorta(int porta) {
+		this.porta = porta;
+	}
+    
+
+    
+    /*
     public void executa() throws UnknownHostException, IOException{
         Socket cliente = new Socket(this.host, this.porta);
         System.out.println("O cliente se conectou ao servidor!");
@@ -38,6 +50,6 @@ public class Cliente {
         saida.close();
         teclado.close();
         cliente.close();
-    }
+    }*/
 
 }
