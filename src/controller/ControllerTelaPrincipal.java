@@ -1,13 +1,14 @@
 package controller;
 
 
-import view.TelaPrincipal;
-
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.Socket;
+
+import view.CardPersonagem;
+import view.TelaPrincipal;
 
 public class ControllerTelaPrincipal implements ActionListener {
     private TelaPrincipal tela;
@@ -30,13 +31,13 @@ public class ControllerTelaPrincipal implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-    	if(e.getSource()== tela.getBotEnviar()  && !tela.getMensagem().isEmpty()) {
-			/*Declarando e criando um fluxo de dados*/
+    	if(e.getSource()== tela.getButtonEnviar()  && !tela.getTPergunta().getText().isEmpty()) {
+			//Declarando e criando um fluxo de dados
     		System.out.println("cliquei em enviar");
 			PrintStream saida;
 			try {
 				saida = new PrintStream(cliente.getOutputStream());
-				String msg = tela.getMensagem();
+				String msg = tela.getTPergunta().getText();
 				saida.println(msg);
 			    
 				//mandei a mensagem para o seridor
@@ -45,5 +46,11 @@ public class ControllerTelaPrincipal implements ActionListener {
 			}
 			
 		}
+    	if(e.getSource() == tela.getButtonAdvinhar()) {
+    		for(CardPersonagem card: tela.getCards()) {
+    			System.out.println("a");
+    			card.addButtonAdvinhar();
+    		}
+    	}
     }
 }
