@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import controller.ControllerCardPersonagem;
 import controller.ControllerTelaPrincipal;
+import model.Personagem;
 
 public class TelaPrincipal extends JFrame {
     private JPanel gridPanel; // Panel for the GridLayout
@@ -40,25 +41,31 @@ public class TelaPrincipal extends JFrame {
         otherPanel = new JPanel();
         
         controller = ctrl;
-        BufferedImage image = null;
-        image = ImageIO.read(new File(".\\src\\img\\soluco.jpg"));
+        BufferedImage imageSoluco = null;
+        BufferedImage imageAstrid = null;
+        BufferedImage imageMelequento = null;
+        imageSoluco = ImageIO.read(new File(".\\src\\img\\soluco.jpg"));
+        imageAstrid = ImageIO.read(new File(".\\src\\img\\astrid1.jpg"));
+        imageMelequento = ImageIO.read(new File(".\\src\\img\\melequento.jpg"));
         
-        criaCardDoPersonagem(image, "Thomas", 21, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Fernanda", 43, "Feminino", "Preto");
-        criaCardDoPersonagem(image, "Bianca", 22, "Feminino", "Amarelo");
-        criaCardDoPersonagem(image, "Robson", 57, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Robson", 57, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Robson", 57, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Robson", 57, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Robson", 34, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Thomas", 21, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Fernanda", 43, "Feminino", "Preto");
-        criaCardDoPersonagem(image, "Bianca", 22, "Feminino", "Amarelo");
-        criaCardDoPersonagem(image, "Robson", 57, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Robson", 57, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Robson", 57, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Robson", 57, "Masculino", "Preto");
-        criaCardDoPersonagem(image, "Robson", 34, "Masculino", "Preto");
+
+        Personagem teste = new Personagem("Robson", 43, "Masculino", 1.70);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageAstrid, teste);
+        criaCardDoPersonagem(imageMelequento, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
+        criaCardDoPersonagem(imageSoluco, teste);
         
         
         gridPanel.setLayout(new GridLayout(2, 8));
@@ -69,27 +76,27 @@ public class TelaPrincipal extends JFrame {
         
         setConfiguracoesDeTela();
         
-        gridPanel.setPreferredSize(new Dimension(1280, 600));
-        otherPanel.setPreferredSize(new Dimension(1280, 200));
+        gridPanel.setPreferredSize(new Dimension(1280, 650));
+        otherPanel.setPreferredSize(new Dimension(1280, 150));
         
-        lPerguntaAnterior = setLabel("Pergunta Anterior:", 20, 100, 160, 30);
+        lPerguntaAnterior = setLabel("Pergunta Anterior:", 20, 50, 160, 30);
         lPerguntaAnterior.setFont(new Font("Serif", Font.PLAIN, 20));
         
-        lRespostaAnterior = setLabel("Resposta Anterior:", 20, 150, 160, 30);
+        lRespostaAnterior = setLabel("Resposta Anterior:", 20, 100, 160, 30);
         lRespostaAnterior.setFont(new Font("Serif", Font.PLAIN, 20));
         
         
         buttonAdvinhar = new JButton("Advinhar");
-        buttonAdvinhar.setBounds(700, 100, 100, 30);
+        buttonAdvinhar.setBounds(700, 50, 100, 30);
         buttonAdvinhar.addActionListener(controller);
         otherPanel.add(buttonAdvinhar);
         
-        lPergunta = setLabel("Fazer Pergunta:", 700, 150, 160, 30);
+        lPergunta = setLabel("Fazer Pergunta:", 700, 100, 160, 30);
         lPergunta.setFont(new Font("Serif", Font.PLAIN, 20));
-        tPergunta = setTextField(830, 155, 300, 25);
+        tPergunta = setTextField(830, 105, 300, 25);
         
         buttonEnviar = new JButton("ENVIAR");
-        buttonEnviar.setBounds(1150, 155, 100, 30);
+        buttonEnviar.setBounds(1150, 105, 100, 30);
         buttonEnviar.addActionListener(controller);
         otherPanel.add(buttonEnviar);
         
@@ -105,9 +112,9 @@ public class TelaPrincipal extends JFrame {
 
     }
 
-    private void criaCardDoPersonagem(BufferedImage foto,String name, Integer idade, String Sexo, String corDoCabelo) {
+    private void criaCardDoPersonagem(BufferedImage foto,Personagem personagem) {
     	ControllerCardPersonagem controllerCard = new ControllerCardPersonagem();
-    	CardPersonagem card = new CardPersonagem(10, 10, foto, name, idade, Sexo, corDoCabelo, controllerCard);
+    	CardPersonagem card = new CardPersonagem(foto, personagem, controllerCard);
     	controllerCard.setTela(card);
     	cards.add(card);
     	gridPanel.add(card);

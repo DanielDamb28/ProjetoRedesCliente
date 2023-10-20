@@ -1,17 +1,12 @@
 package main;
-import model.Cliente;
-import model.Recebedor;
-import model.factorys.FactoryScreens;
-
-
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
-
 
 import controller.ControllerTelaPrincipal;
+import model.Cliente;
+import model.ClienteRecebe;
+import model.factorys.FactoryScreens;
 
 
 public class Main {

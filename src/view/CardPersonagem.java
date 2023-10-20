@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import controller.ControllerCardPersonagem;
+import model.Personagem;
 
 public class CardPersonagem extends JPanel {
     Integer posX;
@@ -20,21 +21,21 @@ public class CardPersonagem extends JPanel {
     String nomePersonagem;
     Integer idade;
     String sexo;
-    String corDoCabelo;
+    Double altura;
     JButton buttonControle;
     JButton buttonAdvinhar;
     ControllerCardPersonagem controller;
     Integer flag;
     Integer flagAdv;
     
-    public CardPersonagem(Integer posX, Integer posY, BufferedImage foto, String nomePersonagem, Integer idade, String sexo, String corDoCabelo, ControllerCardPersonagem controller) {
-        this.posX = posX;
-        this.posY = posY;
+    public CardPersonagem(BufferedImage foto, Personagem personagem, ControllerCardPersonagem controller) {
+        this.posX = 10;
+        this.posY = 10;
         this.foto = foto;
-        this.nomePersonagem = nomePersonagem;
-        this.idade = idade;
-        this.sexo = sexo;
-        this.corDoCabelo = corDoCabelo;
+        this.nomePersonagem = personagem.getNome();
+        this.idade = personagem.getIdade();
+        this.sexo = personagem.getSexo();
+        this.altura = personagem.getAltura();
         this.controller = controller;
         flag = 1;
         
@@ -54,14 +55,14 @@ public class CardPersonagem extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        buttonControle.setBounds(120, 230, 25, 25);
-        buttonAdvinhar.setBounds(90, 230, 25, 25);
+        buttonControle.setBounds(120, 280, 25, 25);
+        buttonAdvinhar.setBounds(90, 280, 25, 25);
 
         int larguraCard = 140; 
-        int alturaCard = 250;
+        int alturaCard = 300;
 
         int larguraFoto = larguraCard - 10;
-        int alturaFoto = (int) (0.6 * alturaCard);
+        int alturaFoto = (int) (0.7 * alturaCard);
 
         int larguraCampoDeTexto = larguraCard;
         int alturaCampoDeTexto = alturaCard - alturaFoto;
@@ -84,9 +85,10 @@ public class CardPersonagem extends JPanel {
         text = "Sexo: " + sexo;
         textY = textY + 15;
         g.drawString(text, textX, textY);
-        text = "Cor do Cabelo: " + corDoCabelo;
+        text = "Altura: " + altura;
         textY = textY + 15;
         g.drawString(text, textX, textY);
+
     }
     
     public void setImage(BufferedImage newImage) {
