@@ -3,11 +3,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import controller.ControllerMain;
 import controller.ControllerTelaPrincipal;
 import model.Cliente;
 import model.factorys.FactoryScreens;
@@ -21,9 +20,18 @@ public class Main {
     	Socket cliente = new Socket(cl.getHost(), cl.getPorta());
         System.out.println("O cliente se conectou ao servidor!");
         
-        ControllerTelaPrincipal controller = new ControllerTelaPrincipal(cliente);
-        FactoryScreens factory = new FactoryScreens();
-        factory.chamaTelaPrincipal(controller);
+        ControllerMain controller = new ControllerMain(cliente);
+        InputStream inputStream = cliente.getInputStream();
+        BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+        
+        while (true) {
+            String respostaServidor = in.readLine();
+            if (respostaServidor == null) {
+                System.out.println("Servidor desconectado.");
+                break;
+            }
+            controller.mandaMensagem(respostaServidor);
+        }
            
 	
     }

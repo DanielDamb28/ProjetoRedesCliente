@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -25,7 +27,7 @@ public class ControllerCardPersonagem implements ActionListener{
     public void setTela(CardPersonagem card){
         this.view = card;
     }
-
+    
     @Override
     public void actionPerformed(ActionEvent e) {
     	System.out.println("aa	");
