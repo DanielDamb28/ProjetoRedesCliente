@@ -3,8 +3,13 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 import view.CardPersonagem;
@@ -17,9 +22,6 @@ public class ControllerTelaPrincipal implements ActionListener {
     public ControllerTelaPrincipal(Socket cliente) {
     	this.cliente = cliente;
     }
-    public ControllerTelaPrincipal() {
-    	
-    }
     
     public TelaPrincipal getTela(){
         return tela;
@@ -30,7 +32,25 @@ public class ControllerTelaPrincipal implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e){
+    	PrintWriter out = null;
+        OutputStream outputStream;
+		try {
+			outputStream = cliente.getOutputStream();
+			out = new PrintWriter(outputStream, true);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        InputStream inputStream;
+		try {
+			inputStream = cliente.getInputStream();
+			BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
     	if(e.getSource()== tela.getButtonEnviar()  && !tela.getTPergunta().getText().isEmpty()) {
 			//Declarando e criando um fluxo de dados
     		System.out.println("cliquei em enviar");
@@ -51,6 +71,7 @@ public class ControllerTelaPrincipal implements ActionListener {
     			System.out.println("a");
     			card.addButtonAdvinhar();
     		}
+    		out.println("Opa");
     	}
     }
 }
