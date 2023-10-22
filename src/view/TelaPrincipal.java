@@ -158,4 +158,9 @@ public class TelaPrincipal extends JFrame {
     public JTextField getTPergunta() {
     	return tPergunta;
     }
+
+	public void setlPerguntaAnterior(String lPerguntaAnterior) {
+		this.lPerguntaAnterior.setText(lPerguntaAnterior); ;
+	}
+    
 }

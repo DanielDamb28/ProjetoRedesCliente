@@ -43,7 +43,9 @@ public class ControllerTelaPrincipal implements ActionListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
+		Thread receiveThread = new Thread(new ClienteRecebe(cliente, tela));
+        receiveThread.start();
+
     	if(e.getSource()== tela.getButtonEnviar()  && !tela.getTPergunta().getText().isEmpty()) {
 			//Declarando e criando um fluxo de dados
     		System.out.println("cliquei em enviar");
