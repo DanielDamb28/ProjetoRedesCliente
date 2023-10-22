@@ -10,28 +10,36 @@ import view.TelaDeEspera;
 
 public class ControllerMain implements ActionListener{
 	private Socket cliente;
+	private TelaDeEspera telaEspera;
 	
 	public ControllerMain(Socket cliente) {
     	this.cliente = cliente;
     }
 	
-	public void chamaTelaPrincipal() throws IOException {
-        ControllerTelaPrincipal controller = new ControllerTelaPrincipal(cliente);
-        FactoryScreens factory = new FactoryScreens();
-        factory.chamaTelaPrincipal(controller);
-	}
-	
     public void mandaMensagem(String mensagem) throws IOException {
-    	TelaDeEspera tela = null;
     	System.out.println(mensagem);
     	if(mensagem.equals("%esperandoJogador%")) {
-    		ControllerTelaDeEspera controller = new ControllerTelaDeEspera();
-    		FactoryScreens factory = new FactoryScreens();
-    		tela = factory.chamaTelaDeEspera(controller);
+    		setTelaEspera();
     	}
     	if(mensagem.equals("%esperandoPronto%")) {
-    		tela.mostrarButton();
+    		telaEspera.mostrarButton();
     	}
+    	if(mensagem.equals("%iniciarJogo%")) {
+    		telaEspera.dispose();
+    		setTelaPrincipal();
+    	}
+    }
+    
+    public void setTelaEspera() throws IOException {
+    	ControllerTelaDeEspera controller = new ControllerTelaDeEspera(cliente);
+		FactoryScreens factory = new FactoryScreens();
+		this.telaEspera = factory.chamaTelaDeEspera(controller);
+    }
+    
+    public void setTelaPrincipal() throws IOException {
+    	ControllerTelaPrincipal controller = new ControllerTelaPrincipal(cliente);
+        FactoryScreens factory = new FactoryScreens();
+        factory.chamaTelaPrincipal(controller);
     }
     
 	@Override

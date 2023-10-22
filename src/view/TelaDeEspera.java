@@ -20,7 +20,7 @@ public class TelaDeEspera extends JFrame{
 		setConfiguracoesDeTela();
 		
 		texto = setLabel("Esperando Por Jogadores ...", 175, 100, 250, 30);
-		button = setButton("Pronto", 175,300, 250, 50);
+		button = setButton("Pronto", 175,150, 250, 50);
 		
 		setVisible(true);
 	}
@@ -56,5 +56,9 @@ public class TelaDeEspera extends JFrame{
     
     public void esconderButton() {
     	button.setVisible(false);
+    }
+    
+    public JButton getButton() {
+    	return button;
     }
 }
