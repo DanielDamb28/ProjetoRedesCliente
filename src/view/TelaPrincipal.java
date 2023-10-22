@@ -40,13 +40,19 @@ public class TelaPrincipal extends JFrame {
         gridPanel.setSize(800,600);
         otherPanel = new JPanel();
         
+        
         controller = ctrl;
         BufferedImage imageSoluco = null;
         BufferedImage imageAstrid = null;
         BufferedImage imageMelequento = null;
-        imageSoluco = ImageIO.read(new File(".\\src\\img\\soluco.jpg"));
-        imageAstrid = ImageIO.read(new File(".\\src\\img\\astrid1.jpg"));
-        imageMelequento = ImageIO.read(new File(".\\src\\img\\melequento.jpg"));
+        try {
+        	 imageSoluco = ImageIO.read(new File(".\\src\\img\\soluco.jpg"));
+             imageAstrid = ImageIO.read(new File(".\\src\\img\\astrid1.jpg"));
+             imageMelequento = ImageIO.read(new File(".\\src\\img\\melequento.jpg"));
+        }catch(Exception e) {
+        	System.out.println("Erro ao abrir imagens");
+        }
+       
         
 
         Personagem teste = new Personagem("Robson", 43, "Masculino", 1.70);

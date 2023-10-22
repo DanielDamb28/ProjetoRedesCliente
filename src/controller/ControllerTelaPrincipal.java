@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import model.ClienteRecebe;
 import view.CardPersonagem;
 import view.TelaPrincipal;
 
@@ -42,15 +43,7 @@ public class ControllerTelaPrincipal implements ActionListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-        InputStream inputStream;
-		try {
-			inputStream = cliente.getInputStream();
-			BufferedReader in = new BufferedReader(new InputStreamReader(inputStream));
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        
+		
     	if(e.getSource()== tela.getButtonEnviar()  && !tela.getTPergunta().getText().isEmpty()) {
 			//Declarando e criando um fluxo de dados
     		System.out.println("cliquei em enviar");
