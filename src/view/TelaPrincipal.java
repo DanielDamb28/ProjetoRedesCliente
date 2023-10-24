@@ -38,6 +38,7 @@ public class TelaPrincipal extends JFrame {
     private Boolean suaJogada;
     
     ControllerTelaPrincipal controller;
+    ControllerMain controlMain;
     
     List<CardPersonagem> cards = new ArrayList<CardPersonagem>();
 
@@ -47,22 +48,17 @@ public class TelaPrincipal extends JFrame {
         suaJogada = false;
         
         
-        controller = ctrl;
-        BufferedImage imageSoluco = null;
-        BufferedImage imageAstrid = null;
-        BufferedImage imageMelequento = null;
-        try {
-        	 imageSoluco = ImageIO.read(new File(".\\src\\img\\soluco.jpg"));
-             imageAstrid = ImageIO.read(new File(".\\src\\img\\astrid1.jpg"));
-             imageMelequento = ImageIO.read(new File(".\\src\\img\\melequento.jpg"));
-        }catch(Exception e) {
-        	System.out.println("Erro ao abrir imagens");
-        }
-       
-        
+        controller = ctrl;     
+        this.controlMain = controlMain;
 
         for(Personagem personagem: personagens) {
-        	criaCardDoPersonagem(imageSoluco, personagem);
+        	BufferedImage image = null;
+        	try {
+        	image = ImageIO.read(new File("./src/img/"+personagem.getNome()+".png"));
+        	} catch (Exception e) {
+        		System.out.println("Imagem");
+        	}
+        	criaCardDoPersonagem(image, personagem);
         }
         
         Personagem personagem = personagens.get(personagemSorteado);
@@ -116,6 +112,7 @@ public class TelaPrincipal extends JFrame {
     	ControllerCardPersonagem controllerCard = new ControllerCardPersonagem();
     	CardPersonagem card = new CardPersonagem(foto, personagem, controllerCard);
     	controllerCard.setTela(card);
+    	controllerCard.setControllerMain(controlMain);
     	cards.add(card);
     	gridPanel.add(card);
     }
@@ -138,7 +135,7 @@ public class TelaPrincipal extends JFrame {
     }
     
     private void setPersonagemSorteado(Personagem personagem) {
-        ImageIcon imagemIcon = new ImageIcon(".\\src\\img\\soluco.jpg");
+        ImageIcon imagemIcon = new ImageIcon(".\\src\\img\\"+personagem.getNome() +".png");
         ImageIcon imagemRedimensionada = new ImageIcon(imagemIcon.getImage().getScaledInstance(150, 195, java.awt.Image.SCALE_SMOOTH));
         JLabel imagemLabel = new JLabel(imagemRedimensionada);
         imagemLabel.setBounds(30, 30, 150, 195);
@@ -146,14 +143,8 @@ public class TelaPrincipal extends JFrame {
         
         lInformacoesPersonagemSorteado = setLabel("Seu Personagem", 190, 25, 200, 30);
         JLabel lPersonagemSorteadoNome = setLabel("Nome: "+ personagem.getNome(), 190, 70, 150, 30);
-        JLabel lPersonagemSorteadoIdade = setLabel("Idade: " + personagem.getIdade() + " anos", 190, 106, 150, 30);
-        JLabel lPersonagemSorteadoSexo = setLabel("Sexo: " + personagem.getSexo(), 190, 142, 150, 30);
-        JLabel lPersonagemSorteadoAltura = setLabel("Altura: " + personagem.getAltura(), 190, 178, 150, 30);
         otherPanel.add(lInformacoesPersonagemSorteado);
         otherPanel.add(lPersonagemSorteadoNome);
-        otherPanel.add(lPersonagemSorteadoIdade);
-        otherPanel.add(lPersonagemSorteadoSexo);
-        otherPanel.add(lPersonagemSorteadoAltura);
         
     }
     
@@ -177,4 +168,5 @@ public class TelaPrincipal extends JFrame {
 		this.lPerguntaAnterior.setText("Pergunta Anterior:" + lPerguntaAnterior); ;
 	}
     
+	
 }

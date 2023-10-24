@@ -5,16 +5,18 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import model.Personagem;
 import view.CardPersonagem;
 
 public class ControllerCardPersonagem implements ActionListener{
 	CardPersonagem view;
+	Personagem personagem;
+	ControllerMain controlMain;
+	
 	BufferedImage image;
 	BufferedImage imageX;
 	ImageIcon tirar;
@@ -28,18 +30,25 @@ public class ControllerCardPersonagem implements ActionListener{
         this.view = card;
     }
     
+    public void setPersonagem(Personagem personagem) {
+    	this.personagem = personagem;
+    }
+    
+    public void setControllerMain(ControllerMain control) {
+    	controlMain = control;
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
-    	System.out.println("aa	");
     	try {
-			imageX = ImageIO.read(new File(".\\src\\img\\solucoDescarte.jpg"));
-			image = ImageIO.read(new File(".\\src\\img\\soluco.jpg"));
-			tirar= new ImageIcon(".\\src\\img\\sair30.png");
-			voltar = new ImageIcon(".\\src\\img\\voltar30.png");
+			imageX = ImageIO.read(new File("./src/img/descarte.png"));
+			image = ImageIO.read(new File("./src/img/" + personagem.getNome() + ".png"));
+			tirar= new ImageIcon("./src/img/sair30.png");
+			voltar = new ImageIcon("./src/img/voltar30.png");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
-        if(e.getSource() == view.getButton()) {
+        if(e.getSource() == view.getButtonControle()) {
         	if (view.getFlag() == 1) {
         		view.setImage(imageX);
         		view.setButtonIcon(voltar);
@@ -50,6 +59,14 @@ public class ControllerCardPersonagem implements ActionListener{
         		view.setButtonIcon(tirar);
         		view.setFlag(1); 
         	}
+        }
+        if(e.getSource() == view.getButtonAdvinhar()) {
+        	try {
+				controlMain.enviaChute(personagem);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
         }
         
     }

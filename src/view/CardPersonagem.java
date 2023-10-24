@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -19,9 +20,6 @@ public class CardPersonagem extends JPanel {
     ImageIcon iconX;
     ImageIcon iconQuestion;
     String nomePersonagem;
-    Integer idade;
-    String sexo;
-    Double altura;
     JButton buttonControle;
     JButton buttonAdvinhar;
     ControllerCardPersonagem controller;
@@ -33,14 +31,12 @@ public class CardPersonagem extends JPanel {
         this.posY = 10;
         this.foto = foto;
         this.nomePersonagem = personagem.getNome();
-        this.idade = personagem.getIdade();
-        this.sexo = personagem.getSexo();
-        this.altura = personagem.getAltura();
         this.controller = controller;
+        controller.setPersonagem(personagem);
         flag = 1;
         
-        iconX = new ImageIcon(".\\src\\img\\sair30.png");
-        iconQuestion = new ImageIcon(".\\src\\img\\interrogacao30.png");
+        iconX = new ImageIcon("./src/img/sair30.png");
+        iconQuestion = new ImageIcon("./src/img/interrogacao30.png");
 
         buttonControle = new JButton("", iconX);
         buttonControle.addActionListener(controller);
@@ -56,13 +52,13 @@ public class CardPersonagem extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         buttonControle.setBounds(120, 240, 25, 25);
-        buttonAdvinhar.setBounds(90, 240, 25, 25);
+        buttonAdvinhar.setBounds(15, 240, 25, 25);
 
         int larguraCard = 140; 
         int alturaCard = 260;
 
         int larguraFoto = larguraCard - 10;
-        int alturaFoto = (int) (0.7 * alturaCard);
+        int alturaFoto = (int) (0.85 * alturaCard);
 
         int larguraCampoDeTexto = larguraCard;
         int alturaCampoDeTexto = alturaCard - alturaFoto;
@@ -75,18 +71,19 @@ public class CardPersonagem extends JPanel {
         g.fillRect(posX, posYCampoDeTexto, larguraCampoDeTexto, alturaCampoDeTexto);
 
         g.setColor(Color.black);
-        String text = "Nome: " + nomePersonagem;
-        int textX = posX + 2;
-        int textY = posYCampoDeTexto + 15;
-        g.drawString(text, textX, textY);
-        text = "Idade: " + idade;
-        textY = textY + 15;
-        g.drawString(text, textX, textY);
-        text = "Sexo: " + sexo;
-        textY = textY + 15;
-        g.drawString(text, textX, textY);
-        text = "Altura: " + altura;
-        textY = textY + 15;
+        String text = nomePersonagem;
+        int textX = 0;
+        int textY = 0;
+        if(nomePersonagem.length() == 9) {
+        	 textX = posX + 35;
+             textY = posYCampoDeTexto + 25;
+        }else {
+        	textX = posX + 45;
+            textY = posYCampoDeTexto + 25;
+        }
+        Font fonte = new Font("Arial", Font.BOLD, 14);
+        g.setFont(fonte);
+        
         g.drawString(text, textX, textY);
 
     }
@@ -101,8 +98,12 @@ public class CardPersonagem extends JPanel {
     	repaint();
     }
     
-    public JButton getButton() {
+    public JButton getButtonControle() {
     	return buttonControle;
+    }
+    
+    public JButton getButtonAdvinhar() {
+    	return buttonAdvinhar;
     }
     
     public Integer getFlag() {

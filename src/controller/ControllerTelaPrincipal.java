@@ -41,6 +41,12 @@ public class ControllerTelaPrincipal implements ActionListener {
 	public void setControlMain(ControllerMain controlMain) {
 		this.controlMain = controlMain;
 	}
+	
+	public void mudaButtonsAdvinhar() {
+		for(CardPersonagem card: tela.getCards()) {
+			card.addButtonAdvinhar();
+		}
+	}
 
 	@Override
     public void actionPerformed(ActionEvent e){
@@ -74,10 +80,7 @@ public class ControllerTelaPrincipal implements ActionListener {
 		}
     	if(e.getSource() == tela.getButtonAdvinhar()) {
     		if(controlMain.getSuaJogada() == true) {
-	    		for(CardPersonagem card: tela.getCards()) {
-	    			System.out.println("a");
-	    			card.addButtonAdvinhar();
-	    		}
+    			mudaButtonsAdvinhar();
     		}
     	}
     }

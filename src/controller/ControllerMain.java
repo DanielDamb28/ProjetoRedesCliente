@@ -12,6 +12,7 @@ import java.util.List;
 import model.Personagem;
 import model.factorys.FactoryPersonagem;
 import model.factorys.FactoryScreens;
+import view.CardPersonagem;
 import view.TelaDeEspera;
 
 public class ControllerMain implements ActionListener{
@@ -20,11 +21,16 @@ public class ControllerMain implements ActionListener{
 	private List<Personagem> listaDePersonagens;
 	private Integer personagemSorteado;
 	private Boolean suaJogada;
+	private ControllerTelaPrincipal controlPrincipal;
 	
 	public ControllerMain(Socket cliente) {
     	this.cliente = cliente;
     	this.suaJogada = false;
     }
+	
+	public void setControlPrincipal(ControllerTelaPrincipal controller) {
+		this.controlPrincipal = controller;
+	}
 	
     public void mandaMensagem(String mensagem) throws IOException {
     	PrintWriter out = null;
@@ -59,7 +65,33 @@ public class ControllerMain implements ActionListener{
     		setTelaSuaVezDeJogar();
     		suaJogada = true;
     	}
-    	if recebeu
+    	if(mensagem.contains("%repassaJogada%")) {
+    		if(mensagem.contains("%repassaPergunta%")) {
+    			
+    		}
+    		if(mensagem.contains("%repassaChute%")) {
+    			int inicioNumero = mensagem.indexOf("%repassaChute%") + 14;
+    			int fimNumero = mensagem.indexOf("%/repassaChute%");
+    			Integer numero = Integer.parseInt(mensagem.substring(inicioNumero, fimNumero));
+    			Boolean resultadoChute = verificaChute(numero);
+    			if(resultadoChute == true) {
+    				String respostaChute = "%respostaChute%%chuteCorreto%%/respostaChute%";
+    				out.println(respostaChute);
+    			} else {
+    				String respostaChute = "%respostaChute%%chuteErrado%%/respostaChute%";
+    				out.println(respostaChute);
+    			}
+    			suaJogada = true;
+    		}
+    	}
+    	if(mensagem.contains("%respostaChute%")) {
+    		if(mensagem.contains("%chuteErrado%")) {
+    			controlPrincipal.mudaButtonsAdvinhar();
+    		}
+    	}
+    	if(mensagem.contains("%jogada%")) {
+    		out.println(mensagem);
+    	}
     }
     
     public void setTelaEspera() throws IOException {
@@ -70,6 +102,7 @@ public class ControllerMain implements ActionListener{
     
     public void setTelaPrincipal(List<Personagem> listaPersonagens, Integer personagemSorteado) throws IOException {
     	ControllerTelaPrincipal controller = new ControllerTelaPrincipal(cliente);
+    	setControlPrincipal(controller);
         FactoryScreens factory = new FactoryScreens();
         factory.chamaTelaPrincipal(listaPersonagens, personagemSorteado, controller, this);
     }
@@ -111,18 +144,17 @@ public class ControllerMain implements ActionListener{
     		int inicioNome = string.indexOf("%nome%") + 6;
     		int fimNome = string.indexOf("%/nome%");
     		String nome = string.substring(inicioNome, fimNome);
-    		int inicioIdade = string.indexOf("%idade%") + 7;
-    		int fimIdade = string.indexOf("%/idade%");
-    		int idade = Integer.parseInt(string.substring(inicioIdade, fimIdade));
-    		int inicioSexo = string.indexOf("%sexo%") + 6;
-    		int fimSexo = string.indexOf("%/sexo%");
-    		String sexo = string.substring(inicioSexo, fimSexo);
-    		int inicioAltura = string.indexOf("%altura%") + 8;
-    		int fimAltura = string.indexOf("%/altura%");
-    		Double altura = Double.parseDouble(string.substring(inicioAltura, fimAltura));
-    		listaPersonagens.add(FactoryPersonagem.criaPersonagem(nome, idade, sexo, altura));
+    		listaPersonagens.add(FactoryPersonagem.criaPersonagem(nome));
     	}
     	return listaPersonagens;
+    }
+    
+    public Boolean verificaChute(Integer numero) {
+    	if (numero == personagemSorteado) {
+    		return true;
+    	} else {
+    		return false;
+    	}
     }
     
     public void setTelaSuaVezDeJogar() {
@@ -130,7 +162,12 @@ public class ControllerMain implements ActionListener{
         factory.chamaTelaSuaVezDeJogar();
     }
     
-    
+    public void enviaChute(Personagem personagem) throws IOException {
+    	int chute = listaDePersonagens.indexOf(personagem);
+    	String enviaChute = "%jogada%%chute%" + chute + "%/chute%%/jogada%";
+    	mandaMensagem(enviaChute);
+    	suaJogada = false;
+    }
     
 	public Boolean getSuaJogada() {
 		return suaJogada;
