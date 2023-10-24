@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import controller.ControllerCardPersonagem;
+import controller.ControllerMain;
 import controller.ControllerTelaPrincipal;
 import model.Personagem;
 
@@ -31,14 +33,18 @@ public class TelaPrincipal extends JFrame {
     private JTextField tPergunta;
     private JButton buttonAdvinhar;
     private JButton buttonEnviar;
+    private JLabel lInformacoesPersonagemSorteado;
+    
+    private Boolean suaJogada;
+    
     ControllerTelaPrincipal controller;
     
     List<CardPersonagem> cards = new ArrayList<CardPersonagem>();
 
-    public TelaPrincipal(ControllerTelaPrincipal ctrl) throws IOException{
+    public TelaPrincipal(List<Personagem> personagens, Integer personagemSorteado, ControllerTelaPrincipal ctrl, ControllerMain controlMain) throws IOException{
         gridPanel = new JPanel();
-        gridPanel.setSize(800,600);
         otherPanel = new JPanel();
+        suaJogada = false;
         
         
         controller = ctrl;
@@ -55,25 +61,11 @@ public class TelaPrincipal extends JFrame {
        
         
 
-        Personagem teste = new Personagem("Robson", 43, "Masculino", 1.70);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageAstrid, teste);
-        criaCardDoPersonagem(imageMelequento, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
-        criaCardDoPersonagem(imageSoluco, teste);
+        for(Personagem personagem: personagens) {
+        	criaCardDoPersonagem(imageSoluco, personagem);
+        }
         
-        
+        Personagem personagem = personagens.get(personagemSorteado);
         gridPanel.setLayout(new GridLayout(2, 8));
         otherPanel.setLayout(null);
         
@@ -82,29 +74,31 @@ public class TelaPrincipal extends JFrame {
         
         setConfiguracoesDeTela();
         
-        gridPanel.setPreferredSize(new Dimension(1280, 650));
-        otherPanel.setPreferredSize(new Dimension(1280, 150));
+        gridPanel.setPreferredSize(new Dimension(1280, 560));
+        otherPanel.setPreferredSize(new Dimension(1280, 240));
         
-        lPerguntaAnterior = setLabel("Pergunta Anterior:", 20, 50, 160, 30);
+        lPerguntaAnterior = setLabel("Pergunta Anterior:", 580, 25, 160, 30);
         lPerguntaAnterior.setFont(new Font("Serif", Font.PLAIN, 20));
         
-        lRespostaAnterior = setLabel("Resposta Anterior:", 20, 100, 160, 30);
+        lRespostaAnterior = setLabel("Resposta Anterior:", 580, 75, 160, 30);
         lRespostaAnterior.setFont(new Font("Serif", Font.PLAIN, 20));
         
         
         buttonAdvinhar = new JButton("Advinhar");
-        buttonAdvinhar.setBounds(700, 50, 100, 30);
+        buttonAdvinhar.setBounds(1150, 178, 110, 30);
         buttonAdvinhar.addActionListener(controller);
         otherPanel.add(buttonAdvinhar);
         
-        lPergunta = setLabel("Fazer Pergunta:", 700, 100, 160, 30);
+        lPergunta = setLabel("Fazer Pergunta:", 580, 178, 160, 30);
         lPergunta.setFont(new Font("Serif", Font.PLAIN, 20));
-        tPergunta = setTextField(830, 105, 300, 25);
+        tPergunta = setTextField(710, 183, 300, 25);
         
         buttonEnviar = new JButton("ENVIAR");
-        buttonEnviar.setBounds(1150, 105, 100, 30);
+        buttonEnviar.setBounds(1030, 178, 100, 30);
         buttonEnviar.addActionListener(controller);
         otherPanel.add(buttonEnviar);
+        
+        setPersonagemSorteado(personagem);
         
         pack();
         setLocationRelativeTo(null);
@@ -143,6 +137,26 @@ public class TelaPrincipal extends JFrame {
     	return txt;
     }
     
+    private void setPersonagemSorteado(Personagem personagem) {
+        ImageIcon imagemIcon = new ImageIcon(".\\src\\img\\soluco.jpg");
+        ImageIcon imagemRedimensionada = new ImageIcon(imagemIcon.getImage().getScaledInstance(150, 195, java.awt.Image.SCALE_SMOOTH));
+        JLabel imagemLabel = new JLabel(imagemRedimensionada);
+        imagemLabel.setBounds(30, 30, 150, 195);
+        otherPanel.add(imagemLabel);
+        
+        lInformacoesPersonagemSorteado = setLabel("Seu Personagem", 190, 25, 200, 30);
+        JLabel lPersonagemSorteadoNome = setLabel("Nome: "+ personagem.getNome(), 190, 70, 150, 30);
+        JLabel lPersonagemSorteadoIdade = setLabel("Idade: " + personagem.getIdade() + " anos", 190, 106, 150, 30);
+        JLabel lPersonagemSorteadoSexo = setLabel("Sexo: " + personagem.getSexo(), 190, 142, 150, 30);
+        JLabel lPersonagemSorteadoAltura = setLabel("Altura: " + personagem.getAltura(), 190, 178, 150, 30);
+        otherPanel.add(lInformacoesPersonagemSorteado);
+        otherPanel.add(lPersonagemSorteadoNome);
+        otherPanel.add(lPersonagemSorteadoIdade);
+        otherPanel.add(lPersonagemSorteadoSexo);
+        otherPanel.add(lPersonagemSorteadoAltura);
+        
+    }
+    
     public List<CardPersonagem> getCards(){
     	return cards;
     }
@@ -158,9 +172,9 @@ public class TelaPrincipal extends JFrame {
     public JTextField getTPergunta() {
     	return tPergunta;
     }
-
+    
 	public void setlPerguntaAnterior(String lPerguntaAnterior) {
-		this.lPerguntaAnterior.setText(lPerguntaAnterior); ;
+		this.lPerguntaAnterior.setText("Pergunta Anterior:" + lPerguntaAnterior); ;
 	}
     
 }

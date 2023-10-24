@@ -19,6 +19,7 @@ import view.TelaPrincipal;
 public class ControllerTelaPrincipal implements ActionListener {
     private TelaPrincipal tela;
     private Socket cliente;
+    private ControllerMain controlMain;
     
     public ControllerTelaPrincipal(Socket cliente) {
     	this.cliente = cliente;
@@ -32,7 +33,16 @@ public class ControllerTelaPrincipal implements ActionListener {
         this.tela = tela;
     }
     
-    @Override
+    
+    public ControllerMain getControlMain() {
+		return controlMain;
+	}
+
+	public void setControlMain(ControllerMain controlMain) {
+		this.controlMain = controlMain;
+	}
+
+	@Override
     public void actionPerformed(ActionEvent e){
     	PrintWriter out = null;
         OutputStream outputStream;
@@ -47,26 +57,28 @@ public class ControllerTelaPrincipal implements ActionListener {
         receiveThread.start();
 
     	if(e.getSource()== tela.getButtonEnviar()  && !tela.getTPergunta().getText().isEmpty()) {
-			//Declarando e criando um fluxo de dados
-    		System.out.println("cliquei em enviar");
-			PrintStream saida;
-			try {
-				saida = new PrintStream(cliente.getOutputStream());
-				String msg = tela.getTPergunta().getText();
-				saida.println(msg);
-			    
-				//mandei a mensagem para o seridor
-			} catch (IOException e1) {
-				System.out.println("Problema na criacao de conexao com o servidor e enviar msg");
-			}
+    		
+    		if(controlMain.getSuaJogada() == true) {
+    			PrintStream saida;
+    			try {
+    				saida = new PrintStream(cliente.getOutputStream());
+    				String msg = "%jogada%%pergunta%";
+    				msg = msg + tela.getTPergunta().getText();
+    				msg = msg + "%/pergunta%%/jogada%";
+    				saida.println(msg);
+    			} catch (IOException e1) {
+    				System.out.println("Problema na criacao de conexao com o servidor e enviar msg");
+    			}
+    		}
 			
 		}
     	if(e.getSource() == tela.getButtonAdvinhar()) {
-    		for(CardPersonagem card: tela.getCards()) {
-    			System.out.println("a");
-    			card.addButtonAdvinhar();
+    		if(controlMain.getSuaJogada() == true) {
+	    		for(CardPersonagem card: tela.getCards()) {
+	    			System.out.println("a");
+	    			card.addButtonAdvinhar();
+	    		}
     		}
-    		out.println("Opa");
     	}
     }
 }

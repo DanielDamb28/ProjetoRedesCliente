@@ -46,5 +46,13 @@ public class Personagem {
 		this.altura = altura;
 	}
 	
+	public String toString() {
+		return "%personagem%"
+				+ "%nome%" + getNome() + "%/nome%"
+					+ "%idade%" + getIdade() + "%/idade%"
+							+ "%sexo%" + getSexo() + "%/sexo%"
+									+ "%altura%" + getAltura() + "%/altura%"
+											+ "%/personagem%";
+	}
 	
 }
