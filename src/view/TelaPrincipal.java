@@ -22,6 +22,8 @@ import controller.ControllerCardPersonagem;
 import controller.ControllerMain;
 import controller.ControllerTelaPrincipal;
 import model.Personagem;
+import java.awt.Color;
+import javax.swing.UIManager;
 
 public class TelaPrincipal extends JFrame {
     private JPanel gridPanel; // Panel for the GridLayout
@@ -34,6 +36,10 @@ public class TelaPrincipal extends JFrame {
     private JButton buttonAdvinhar;
     private JButton buttonEnviar;
     private JLabel lInformacoesPersonagemSorteado;
+    private JTextField txt;
+    private JLabel PerguntaAResp;
+    private JButton btnSim;
+    private JButton btnNao;
     
     private Boolean suaJogada;
     
@@ -65,8 +71,8 @@ public class TelaPrincipal extends JFrame {
         gridPanel.setLayout(new GridLayout(2, 8));
         otherPanel.setLayout(null);
         
-        add(gridPanel, BorderLayout.PAGE_START); 
-        add(otherPanel, BorderLayout.SOUTH);
+        getContentPane().add(gridPanel, BorderLayout.PAGE_START); 
+        getContentPane().add(otherPanel, BorderLayout.SOUTH);
         
         setConfiguracoesDeTela();
         
@@ -93,6 +99,25 @@ public class TelaPrincipal extends JFrame {
         buttonEnviar.setBounds(1030, 178, 100, 30);
         buttonEnviar.addActionListener(controller);
         otherPanel.add(buttonEnviar);
+        
+        PerguntaAResp = new JLabel("pergunta");
+        PerguntaAResp.setFont(new Font("Serif", Font.PLAIN, 20));
+        PerguntaAResp.setBounds(750, 48, 508, 30);
+        otherPanel.add(PerguntaAResp);
+        PerguntaAResp.setVisible(false);
+   	
+        
+        btnSim = new JButton("SIM");
+        btnSim.setBounds(878, 116, 69, 30);
+        btnSim.addActionListener(controller);
+        otherPanel.add(btnSim);
+        btnSim.setVisible(false); 
+        
+        btnNao = new JButton("NÃO");
+        btnNao.setBounds(957, 116, 69, 30);
+        btnNao.addActionListener(controller);
+        otherPanel.add(btnNao);
+        btnNao.setVisible(false);
         
         setPersonagemSorteado(personagem);
         
@@ -126,7 +151,7 @@ public class TelaPrincipal extends JFrame {
     }
     
     private JTextField setTextField(int xText, int yText, int width, int height) {
-    	JTextField txt = new JTextField();
+    	txt = new JTextField();
     	txt = new JTextField();
     	txt.setBounds(xText,yText,width,height);
     	txt.setFont(new Font("Serif", Font.PLAIN, 15));
@@ -145,8 +170,34 @@ public class TelaPrincipal extends JFrame {
         JLabel lPersonagemSorteadoNome = setLabel("Nome: "+ personagem.getNome(), 190, 70, 150, 30);
         otherPanel.add(lInformacoesPersonagemSorteado);
         otherPanel.add(lPersonagemSorteadoNome);
+       
         
     }
+    
+    public void mudaTelaResponder() {
+    	System.out.println("Mudando tela para pergunta");
+    	PerguntaAResp.setVisible(true);
+		 btnSim.setVisible(true);
+		 btnNao.setVisible(true);
+	 
+        lPerguntaAnterior .setVisible(false);
+        lRespostaAnterior.setVisible(false);
+        buttonAdvinhar.setVisible(false);
+        lPergunta.setVisible(false);
+        buttonEnviar.setVisible(false);
+    }
+    
+	public void mudaTelaPergunta() {
+		PerguntaAResp.setVisible(false);
+		btnSim.setVisible(false);
+		btnNao.setVisible(false);
+
+		lPerguntaAnterior.setVisible(true);
+		lRespostaAnterior.setVisible(true);
+		buttonAdvinhar.setVisible(true);
+		lPergunta.setVisible(true);
+		buttonEnviar.setVisible(true);
+	}
     
     public List<CardPersonagem> getCards(){
     	return cards;
@@ -164,9 +215,62 @@ public class TelaPrincipal extends JFrame {
     	return tPergunta;
     }
     
-	public void setlPerguntaAnterior(String lPerguntaAnterior) {
-		this.lPerguntaAnterior.setText("Pergunta Anterior:" + lPerguntaAnterior); ;
+
+	public String getTextoPergunta() {
+		return tPergunta.getText();
 	}
-    
+
+	public void setTextoPergunta(String pergunta) {
+		this.tPergunta.setText(pergunta);
+	}
+
+	public JLabel getlPerguntaAnterior() {
+		return lPerguntaAnterior;
+	}
+
+	public JLabel getlRespostaAnterior() {
+		return lRespostaAnterior;
+	}
+
+	public JLabel getlPergunta() {
+		return lPergunta;
+	}
+
+	public JTextField gettPergunta() {
+		return tPergunta;
+	}
+
+	public JLabel getPerguntaAResp() {
+		return PerguntaAResp;
+	}
+
+	public JButton getBtnSim() {
+		return btnSim;
+	}
+
+	public JButton getBtnNao() {
+		return btnNao;
+	}
+
+	public JTextField getTxt() {
+		return txt;
+	}
+
+	public void setlPerguntaAnterior(String lPerguntaAnterior) {
+		this.lPerguntaAnterior.setText("Pergunta anterior: " +lPerguntaAnterior);;
+	}
+
+	public void setPerguntaAResp(String perguntaAResp) {
+		PerguntaAResp.setText("Pergunta: "+perguntaAResp);
+	}
+
+	public void setlRespostaAnterior(String lRespostaAnterior) {
+		this.lRespostaAnterior.setText("Resposta anterior: "+lRespostaAnterior);
+	}
+
+	
+
+	
+	
 	
 }

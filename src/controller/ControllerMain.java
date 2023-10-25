@@ -66,8 +66,24 @@ public class ControllerMain implements ActionListener{
     		suaJogada = true;
     	}
     	if(mensagem.contains("%repassaJogada%")) {
+    		System.out.println("entrei");
     		if(mensagem.contains("%repassaPergunta%")) {
+    			int inicio = mensagem.indexOf("Pergunta");
+    			int fim = mensagem.lastIndexOf("repassaPergunta");
+    			inicio = inicio + 9;
+    			fim = fim- 2;
+    			String  msg = mensagem.substring(inicio,fim);
+    			System.out.println("mensagem recebida do servidor "+ msg);
+    			controlPrincipal.mudaPergunta(msg);
     			
+    		}else {
+    			if(mensagem.contains("%respostaPergunta%")) {
+        			int inicioResposta = mensagem.indexOf("%respostaPergunta%")+18;
+        			int fimResposta = mensagem.indexOf("/respostaPergunta%");
+        			String resposta = mensagem.substring(inicioResposta,fimResposta);
+        			System.out.println("Resposta recebida: "+ resposta);
+        			controlPrincipal.mudaRespostaAnterior(resposta);
+        		}
     		}
     		if(mensagem.contains("%repassaChute%")) {
     			int inicioNumero = mensagem.indexOf("%repassaChute%") + 14;
