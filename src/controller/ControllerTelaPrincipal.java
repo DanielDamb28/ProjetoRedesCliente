@@ -143,8 +143,9 @@ public class ControllerTelaPrincipal implements ActionListener {
 			PrintStream saida;
 			try {
 				saida = new PrintStream(cliente.getOutputStream());
-				String resposta = "%repassaJogada%%jogada%%respostaPergunta%Sim%/respostaPergunta%%/jogada%%/repassaJogada%";
+				String resposta = "%respostaPergunta%Sim%/respostaPergunta%";
 				saida.println(resposta);
+				controlMain.setSuaJogada(true);
 				mudaTelaPerguntar();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
@@ -156,9 +157,10 @@ public class ControllerTelaPrincipal implements ActionListener {
 			PrintStream saida;
 			try {
 				saida = new PrintStream(cliente.getOutputStream());
-				String resposta = "%repassaJogada%%jogada%%respostaPergunta%Nao%/respostaPergunta%%/jogada%%/repassaJogada%";
+				String resposta = "%respostaPergunta%Nao%/respostaPergunta%";
 				System.out.println(resposta);
 				saida.println(resposta);
+				controlMain.setSuaJogada(true);
 				mudaTelaPerguntar();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block

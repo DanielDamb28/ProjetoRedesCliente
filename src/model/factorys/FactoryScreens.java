@@ -3,19 +3,22 @@ package model.factorys;
 import java.io.IOException;
 import java.util.List;
 
+import controller.ControllerFimDeJogo;
 import controller.ControllerMain;
 import controller.ControllerTelaDeEspera;
 import controller.ControllerTelaPrincipal;
 import model.Personagem;
 import view.TelaDeEspera;
+import view.TelaFimDeJogo;
 import view.TelaPrincipal;
 import view.TelaSuaVezDeJogar;
 
 public class FactoryScreens {
-    public void chamaTelaPrincipal(List<Personagem> listaPersonagens, Integer personagemSorteado, ControllerTelaPrincipal ctrl, ControllerMain controlMain) throws IOException{
+    public TelaPrincipal chamaTelaPrincipal(List<Personagem> listaPersonagens, Integer personagemSorteado, ControllerTelaPrincipal ctrl, ControllerMain controlMain) throws IOException{
         TelaPrincipal tela = new TelaPrincipal(listaPersonagens,personagemSorteado,  ctrl, controlMain);
         ctrl.setTela(tela);
         ctrl.setControlMain(controlMain);
+        return tela;
     }
     
     public TelaDeEspera chamaTelaDeEspera(ControllerTelaDeEspera ctrl) throws IOException{
@@ -28,4 +31,10 @@ public class FactoryScreens {
     	TelaSuaVezDeJogar tela = new TelaSuaVezDeJogar();
     	return tela;
     }
+
+	public TelaFimDeJogo chamaTelaFimDeJogo(ControllerFimDeJogo controller, String mensagem) {
+		TelaFimDeJogo tela = new TelaFimDeJogo(controller, mensagem);
+		controller.setTela(tela);
+		return tela;
+	}
 }

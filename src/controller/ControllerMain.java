@@ -12,12 +12,15 @@ import java.util.List;
 import model.Personagem;
 import model.factorys.FactoryPersonagem;
 import model.factorys.FactoryScreens;
-import view.CardPersonagem;
 import view.TelaDeEspera;
+import view.TelaFimDeJogo;
+import view.TelaPrincipal;
 
 public class ControllerMain implements ActionListener{
 	private Socket cliente;
 	private TelaDeEspera telaEspera;
+	private TelaPrincipal telaPrincipal;
+	private TelaFimDeJogo telaFimDeJogo;
 	private List<Personagem> listaDePersonagens;
 	private Integer personagemSorteado;
 	private Boolean suaJogada;
@@ -75,15 +78,6 @@ public class ControllerMain implements ActionListener{
     			System.out.println("mensagem recebida do servidor "+ msg);
     			controlPrincipal.mudaTelaResponder(msg); // muda a tela para aparecer a pergunta e os botoes de sim ou nao
     			
-    		}else {
-    			if(mensagem.contains("%respostaPergunta%")) {
-    				System.out.println("Recebi a resposta");
-        			int inicioResposta = mensagem.indexOf("%respostaPergunta%")+18;
-        			int fimResposta = mensagem.indexOf("%/respostaPergunta%");
-        			String resposta = mensagem.substring(inicioResposta,fimResposta);
-        			System.out.println("Resposta recebida: "+ resposta);
-        			controlPrincipal.mudaRespostaAnterior(resposta);
-        		}
     		}
     		if(mensagem.contains("%repassaChute%")) {
     			int inicioNumero = mensagem.indexOf("%repassaChute%") + 14;
@@ -96,17 +90,40 @@ public class ControllerMain implements ActionListener{
     			} else {
     				String respostaChute = "%respostaChute%%chuteErrado%%/respostaChute%";
     				out.println(respostaChute);
+    				telaPrincipal.telaDeChute("Seu adversário tentou chutar e ERROU!, sua vez de jogar");
     			}
     			suaJogada = true;
     		}
+
     	}
+    	if(mensagem.contains("%respostaPergunta%")) {
+			System.out.println("Recebi a resposta");
+			int inicioResposta = mensagem.indexOf("%respostaPergunta%")+18;
+			int fimResposta = mensagem.indexOf("%/respostaPergunta%");
+			String resposta = mensagem.substring(inicioResposta,fimResposta);
+			System.out.println("Resposta recebida: "+ resposta);
+			controlPrincipal.mudaRespostaAnterior(resposta);
+			setSuaJogada(false);
+		}
     	if(mensagem.contains("%respostaChute%")) {
     		if(mensagem.contains("%chuteErrado%")) {
+    			setSuaJogada(false);
     			controlPrincipal.mudaButtonsAdvinhar();
+    			telaPrincipal.telaDeChute("Você errou o chute! perdeu a vez.");
     		}
     	}
     	if(mensagem.contains("%jogada%")) {
     		out.println(mensagem);
+    	}
+    	if(mensagem.contains("%fimDeJogo%")) {
+    		if(mensagem.contains("%voceVenceu%")) {
+    			telaPrincipal.dispose();
+    			setTelaFimDeJogo("Voce Venceu!");
+    		}
+    		if(mensagem.contains("%vocePerdeu%")) {
+    			telaPrincipal.dispose();
+    			setTelaFimDeJogo("Voce Perdeu!");
+    		}
     	}
     }
     
@@ -120,7 +137,7 @@ public class ControllerMain implements ActionListener{
     	ControllerTelaPrincipal controller = new ControllerTelaPrincipal(cliente);
     	setControlPrincipal(controller);
         FactoryScreens factory = new FactoryScreens();
-        factory.chamaTelaPrincipal(listaPersonagens, personagemSorteado, controller, this);
+        this.telaPrincipal = factory.chamaTelaPrincipal(listaPersonagens, personagemSorteado, controller, this);
     }
     
     public List<Personagem> decodificaPersonagens(String mensagem){
@@ -183,6 +200,12 @@ public class ControllerMain implements ActionListener{
     	String enviaChute = "%jogada%%chute%" + chute + "%/chute%%/jogada%";
     	mandaMensagem(enviaChute);
     	suaJogada = false;
+    }
+    
+    public void setTelaFimDeJogo(String mensagem) {
+    	ControllerFimDeJogo controller = new ControllerFimDeJogo();
+        FactoryScreens factory = new FactoryScreens();
+        this.telaFimDeJogo = factory.chamaTelaFimDeJogo(controller, mensagem);
     }
     
 	public Boolean getSuaJogada() {

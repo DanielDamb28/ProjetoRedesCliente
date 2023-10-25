@@ -51,11 +51,11 @@ public class CardPersonagem extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        buttonControle.setBounds(120, 240, 25, 25);
-        buttonAdvinhar.setBounds(15, 240, 25, 25);
+        buttonControle.setBounds(120, 200, 25, 25);
+        buttonAdvinhar.setBounds(15, 200, 25, 25);
 
         int larguraCard = 140; 
-        int alturaCard = 260;
+        int alturaCard = 220;
 
         int larguraFoto = larguraCard - 10;
         int alturaFoto = (int) (0.85 * alturaCard);

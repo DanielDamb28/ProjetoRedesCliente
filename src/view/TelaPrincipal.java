@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -26,6 +27,9 @@ import java.awt.Color;
 import javax.swing.UIManager;
 
 public class TelaPrincipal extends JFrame {
+	Integer larguraTela = 1280;
+	Integer alturaTela = 720;
+	
     private JPanel gridPanel; // Panel for the GridLayout
     private JPanel otherPanel; // Panel for other components
     
@@ -76,10 +80,10 @@ public class TelaPrincipal extends JFrame {
         
         setConfiguracoesDeTela();
         
-        gridPanel.setPreferredSize(new Dimension(1280, 560));
+        gridPanel.setPreferredSize(new Dimension(1280, 480));
         otherPanel.setPreferredSize(new Dimension(1280, 240));
         
-        lPerguntaAnterior = setLabel("Pergunta Anterior:", 580, 25, 260, 30);
+        lPerguntaAnterior = setLabel("Pergunta Anterior:", 580, 25, 650, 30);
         lPerguntaAnterior.setFont(new Font("Serif", Font.PLAIN, 20));
         
         lRespostaAnterior = setLabel("Resposta Anterior:", 580, 75, 230, 30);
@@ -128,7 +132,7 @@ public class TelaPrincipal extends JFrame {
 
     private void setConfiguracoesDeTela() {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1280, 720);
+        setSize(larguraTela, alturaTela);
         setTitle("Main Screen");
 
     }
@@ -274,7 +278,9 @@ public class TelaPrincipal extends JFrame {
 		this.txt.setText(tPergunta);
 	}
 
-	
+	public void telaDeChute(String mensagem) {
+		JOptionPane.showMessageDialog(null, mensagem, "Aviso", JOptionPane.INFORMATION_MESSAGE);
+	}
 
 	
 	
