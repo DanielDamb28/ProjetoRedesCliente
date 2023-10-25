@@ -49,7 +49,7 @@ public class TelaPrincipal extends JFrame {
     List<CardPersonagem> cards = new ArrayList<CardPersonagem>();
 
     public TelaPrincipal(List<Personagem> personagens, Integer personagemSorteado, ControllerTelaPrincipal ctrl, ControllerMain controlMain) throws IOException{
-        gridPanel = new JPanel();
+    	gridPanel = new JPanel();
         otherPanel = new JPanel();
         suaJogada = false;
         
@@ -79,10 +79,10 @@ public class TelaPrincipal extends JFrame {
         gridPanel.setPreferredSize(new Dimension(1280, 560));
         otherPanel.setPreferredSize(new Dimension(1280, 240));
         
-        lPerguntaAnterior = setLabel("Pergunta Anterior:", 580, 25, 160, 30);
+        lPerguntaAnterior = setLabel("Pergunta Anterior:", 580, 25, 260, 30);
         lPerguntaAnterior.setFont(new Font("Serif", Font.PLAIN, 20));
         
-        lRespostaAnterior = setLabel("Resposta Anterior:", 580, 75, 160, 30);
+        lRespostaAnterior = setLabel("Resposta Anterior:", 580, 75, 230, 30);
         lRespostaAnterior.setFont(new Font("Serif", Font.PLAIN, 20));
         
         
@@ -257,15 +257,21 @@ public class TelaPrincipal extends JFrame {
 	}
 
 	public void setlPerguntaAnterior(String lPerguntaAnterior) {
-		this.lPerguntaAnterior.setText("Pergunta anterior: " +lPerguntaAnterior);;
+		System.out.println("emtrei no set pergunta anterior");
+		this.lPerguntaAnterior.setText("Pergunta anterior: " +lPerguntaAnterior);
+		
 	}
 
 	public void setPerguntaAResp(String perguntaAResp) {
-		PerguntaAResp.setText("Pergunta: "+perguntaAResp);
+		this.PerguntaAResp.setText("Pergunta: "+perguntaAResp);
 	}
 
 	public void setlRespostaAnterior(String lRespostaAnterior) {
 		this.lRespostaAnterior.setText("Resposta anterior: "+lRespostaAnterior);
+	}
+
+	public void setTxt(String tPergunta) {
+		this.txt.setText(tPergunta);
 	}
 
 	

@@ -66,7 +66,6 @@ public class ControllerMain implements ActionListener{
     		suaJogada = true;
     	}
     	if(mensagem.contains("%repassaJogada%")) {
-    		System.out.println("entrei");
     		if(mensagem.contains("%repassaPergunta%")) {
     			int inicio = mensagem.indexOf("Pergunta");
     			int fim = mensagem.lastIndexOf("repassaPergunta");
@@ -74,12 +73,13 @@ public class ControllerMain implements ActionListener{
     			fim = fim- 2;
     			String  msg = mensagem.substring(inicio,fim);
     			System.out.println("mensagem recebida do servidor "+ msg);
-    			controlPrincipal.mudaPergunta(msg);
+    			controlPrincipal.mudaTelaResponder(msg); // muda a tela para aparecer a pergunta e os botoes de sim ou nao
     			
     		}else {
     			if(mensagem.contains("%respostaPergunta%")) {
+    				System.out.println("Recebi a resposta");
         			int inicioResposta = mensagem.indexOf("%respostaPergunta%")+18;
-        			int fimResposta = mensagem.indexOf("/respostaPergunta%");
+        			int fimResposta = mensagem.indexOf("%/respostaPergunta%");
         			String resposta = mensagem.substring(inicioResposta,fimResposta);
         			System.out.println("Resposta recebida: "+ resposta);
         			controlPrincipal.mudaRespostaAnterior(resposta);

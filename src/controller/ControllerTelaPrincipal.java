@@ -12,6 +12,8 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import javax.swing.JOptionPane;
+
 import model.ClienteRecebe;
 import view.CardPersonagem;
 import view.TelaPrincipal;
@@ -42,24 +44,28 @@ public class ControllerTelaPrincipal implements ActionListener {
 		this.controlMain = controlMain;
 	}
 	
+	
 	public void mudaButtonsAdvinhar() {
 		for(CardPersonagem card: tela.getCards()) {
 			card.addButtonAdvinhar();
 		}
 	}
-	public void mudaPerguntarAResponser(String pergunta) {
+	public void mudaPerguntaAResponder(String pergunta) {
 		tela.setPerguntaAResp(pergunta);
 	}
 	
 	public void mudaPerguntaAnterior(String pergunta) {
+		System.out.println("Mudando pergunta anterior");
 		tela.setlPerguntaAnterior(pergunta);
 	}
 	public void mudaRespostaAnterior(String resposta) {
+		System.out.println("Mudando resposta anterior");
 		tela.setlRespostaAnterior(resposta);
 	}
 	
-	public void mudaPergunta(String pergunta) {
+	public void mudaTelaResponder(String pergunta) {
 		tela.getPerguntaAResp().setVisible(true);
+		this.mudaPerguntaAResponder(pergunta);
 		tela.getBtnSim().setVisible(true);
 		tela.getBtnNao().setVisible(true);
 	 
@@ -71,14 +77,14 @@ public class ControllerTelaPrincipal implements ActionListener {
         tela.getTxt().setVisible(false);
 	}
 	
-	public void mudaResposta() {
+	public void mudaTelaPerguntar() {
 		tela.getPerguntaAResp().setVisible(false);
 		tela.getBtnSim().setVisible(false);
 		tela.getBtnNao().setVisible(false);
 	 
         tela.getlPerguntaAnterior() .setVisible(true);
         tela.getlRespostaAnterior().setVisible(true);
-        tela. getButtonAdvinhar().setVisible(true);
+        tela.getButtonAdvinhar().setVisible(true);
         tela.getlPergunta().setVisible(true);
         tela.getButtonEnviar().setVisible(true);
         tela.getTxt().setVisible(true);
@@ -105,19 +111,31 @@ public class ControllerTelaPrincipal implements ActionListener {
     			PrintStream saida;
     			try {
     				saida = new PrintStream(cliente.getOutputStream());
+    				String perguntaAnt = tela.getTPergunta().getText();
     				String msg = "%jogada%%pergunta%";
     				msg = msg + tela.getTPergunta().getText();
     				msg = msg + "%/pergunta%%/jogada%";
     				saida.println(msg);
+    				this.mudaPerguntaAnterior(perguntaAnt);
+    				this.mudaRespostaAnterior(" ");
+    				tela.setTxt(" ");
     			} catch (IOException e1) {
     				System.out.println("Problema na criacao de conexao com o servidor e enviar msg");
     			}
-    		}
+    		}else {
+    			if(controlMain.getSuaJogada() == false) {
+   				 JOptionPane.showMessageDialog(null, "Não é sua vez ! \n Aguarde..", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+   			}
+   		}
 			
 		}
     	if(e.getSource() == tela.getButtonAdvinhar()) {
     		if(controlMain.getSuaJogada() == true) {
     			mudaButtonsAdvinhar();
+    		}else {
+    			if(controlMain.getSuaJogada() == false) {
+    				 JOptionPane.showMessageDialog(null, "Não é sua vez ! \n Aguarde..", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+    			}
     		}
     	}
 		if (e.getSource() == tela.getBtnSim()) {
@@ -127,7 +145,7 @@ public class ControllerTelaPrincipal implements ActionListener {
 				saida = new PrintStream(cliente.getOutputStream());
 				String resposta = "%repassaJogada%%jogada%%respostaPergunta%Sim%/respostaPergunta%%/jogada%%/repassaJogada%";
 				saida.println(resposta);
-				mudaResposta();
+				mudaTelaPerguntar();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -138,10 +156,10 @@ public class ControllerTelaPrincipal implements ActionListener {
 			PrintStream saida;
 			try {
 				saida = new PrintStream(cliente.getOutputStream());
-				String resposta = "%repassaJogada%%respostaPergunta%Nao%/respostaPergunta%%/repassaJogada%";
+				String resposta = "%repassaJogada%%jogada%%respostaPergunta%Nao%/respostaPergunta%%/jogada%%/repassaJogada%";
 				System.out.println(resposta);
 				saida.println(resposta);
-				mudaResposta();
+				mudaTelaPerguntar();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
