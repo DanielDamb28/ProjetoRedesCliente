@@ -36,7 +36,7 @@ public class CardPersonagem extends JPanel {
         flag = 1;
         
         iconX = new ImageIcon("./src/img/sair30.png");
-        iconQuestion = new ImageIcon("./src/img/interrogacao30.png");
+        iconQuestion = new ImageIcon("./src/img/advinhar.png");
 
         buttonControle = new JButton("", iconX);
         buttonControle.addActionListener(controller);
@@ -52,7 +52,7 @@ public class CardPersonagem extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         buttonControle.setBounds(120, 200, 25, 25);
-        buttonAdvinhar.setBounds(15, 200, 25, 25);
+        buttonAdvinhar.setBounds(15, 202, 25, 25);
 
         int larguraCard = 140; 
         int alturaCard = 220;

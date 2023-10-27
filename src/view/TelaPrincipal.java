@@ -50,6 +50,9 @@ public class TelaPrincipal extends JFrame {
     ControllerTelaPrincipal controller;
     ControllerMain controlMain;
     
+    ImageIcon iconeSim;
+    ImageIcon iconeNao;
+    
     List<CardPersonagem> cards = new ArrayList<CardPersonagem>();
 
     public TelaPrincipal(List<Personagem> personagens, Integer personagemSorteado, ControllerTelaPrincipal ctrl, ControllerMain controlMain) throws IOException{
@@ -104,21 +107,22 @@ public class TelaPrincipal extends JFrame {
         buttonEnviar.addActionListener(controller);
         otherPanel.add(buttonEnviar);
         
-        PerguntaAResp = new JLabel("pergunta");
+        PerguntaAResp = new JLabel("Pergunta: ");
         PerguntaAResp.setFont(new Font("Serif", Font.PLAIN, 20));
-        PerguntaAResp.setBounds(750, 48, 508, 30);
+        PerguntaAResp.setBounds(750, 50, 500, 30);
         otherPanel.add(PerguntaAResp);
         PerguntaAResp.setVisible(false);
    	
-        
-        btnSim = new JButton("SIM");
-        btnSim.setBounds(878, 116, 69, 30);
+        iconeSim = new ImageIcon("./src/img/sim.png");
+        btnSim = new JButton("", iconeSim);
+        btnSim.setBounds(750, 100, 100, 50);
         btnSim.addActionListener(controller);
         otherPanel.add(btnSim);
         btnSim.setVisible(false); 
         
-        btnNao = new JButton("NÃO");
-        btnNao.setBounds(957, 116, 69, 30);
+        iconeNao = new ImageIcon("./src/img/nao.png");
+        btnNao = new JButton("", iconeNao);
+        btnNao.setBounds(860, 100, 100, 50);
         btnNao.addActionListener(controller);
         otherPanel.add(btnNao);
         btnNao.setVisible(false);

@@ -18,6 +18,7 @@ public class TelaSuaVezDeJogar extends JFrame{
 		label2 = setLabel(" o personagem do seu adversário!", 45, 100, 200, 20);
 		
 		
+		
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}

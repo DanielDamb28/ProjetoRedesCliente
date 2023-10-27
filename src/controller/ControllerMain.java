@@ -118,11 +118,11 @@ public class ControllerMain implements ActionListener{
     	if(mensagem.contains("%fimDeJogo%")) {
     		if(mensagem.contains("%voceVenceu%")) {
     			telaPrincipal.dispose();
-    			setTelaFimDeJogo("Voce Venceu!");
+    			setTelaFimDeJogo("Você Venceu!");
     		}
     		if(mensagem.contains("%vocePerdeu%")) {
     			telaPrincipal.dispose();
-    			setTelaFimDeJogo("Voce Perdeu!");
+    			setTelaFimDeJogo("Você Perdeu!");
     		}
     	}
     }

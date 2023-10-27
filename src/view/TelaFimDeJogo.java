@@ -24,6 +24,7 @@ public class TelaFimDeJogo extends JFrame{
     private void setConfiguracoesDeTela() {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(600, 400);
+        setLayout(null);
         setTitle("Game Over");
     }
     
